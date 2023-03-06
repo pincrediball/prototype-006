@@ -1,0 +1,98 @@
+[gd_scene load_steps=6 format=3 uid="uid://b126klf2sjo5o"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_7x2pf"]
+[ext_resource type="Texture2D" uid="uid://thc572wt0bff" path="res://ball.png" id="1_aefcy"]
+[ext_resource type="Texture2D" uid="uid://ctytmoguid5oj" path="res://bg_gradient.tres" id="2_hf2hr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t1len"]
+radius = 8.57123
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_46iyf"]
+size = Vector2(299.987, 19.6481)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_7x2pf")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 300.0
+offset_bottom = 500.0
+texture = ExtResource("2_hf2hr")
+
+[node name="MyBgRect" type="ColorRect" parent="."]
+offset_right = 300.0
+offset_bottom = 500.0
+color = Color(0, 0.294118, 0.521569, 0)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 18.0
+offset_top = 31.0
+offset_right = 238.0
+offset_bottom = 71.0
+theme_override_colors/default_color = Color(0, 0, 0.0784314, 1)
+text = "🖱 Press & Hold, Release!"
+fit_content = true
+
+[node name="ScoreText" type="RichTextLabel" parent="."]
+offset_left = 18.0
+offset_top = 284.0
+offset_right = 238.0
+offset_bottom = 324.0
+theme_override_colors/default_color = Color(0, 0, 0.0784314, 1)
+theme_override_font_sizes/normal_font_size = 28
+text = "SCORE: 0"
+fit_content = true
+
+[node name="Ball" type="RigidBody2D" parent="."]
+position = Vector2(257, 447)
+mass = 10.0
+continuous_cd = 1
+max_contacts_reported = 10
+contact_monitor = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Ball"]
+position = Vector2(0, 1)
+texture = ExtResource("1_aefcy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+position = Vector2(0, 1)
+scale = Vector2(1.05003, 1.05682)
+shape = SubResource("CircleShape2D_t1len")
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(0, 480)
+
+[node name="ColorRect" type="ColorRect" parent="Floor"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 300.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.615686, 0.211765, 0.768627, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(150, 10)
+shape = SubResource("RectangleShape2D_46iyf")
+
+[node name="Ceiling" type="StaticBody2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Ceiling"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 300.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.882353, 0.45098, 0.196078, 1)
+
+[node name="CollisionShape2DCeiling" type="CollisionShape2D" parent="Ceiling"]
+position = Vector2(150, 10)
+shape = SubResource("RectangleShape2D_46iyf")
+
+[connection signal="body_entered" from="Ball" to="." method="_on_ball_body_entered"]
